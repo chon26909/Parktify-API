@@ -2,6 +2,10 @@ package main
 
 import (
 	"log"
+	"parktify/controllers"
+	"parktify/lib"
+	"parktify/repository"
+
 	// "parktify/lib"
 	// "parktify/repository"
 
@@ -9,18 +13,26 @@ import (
 )
 
 func main() {
-	// db := lib.NewMySqlConnection()
-	// rdb := lib.NewRedisConnection()
+	db := lib.NewMySqlConnection()
 
-	// userRepostory := repository.NewUserRepository(db, rdb)
+	_ = db
 
-	// _ = userRepostory
+	rdb := lib.NewRedisConnection()
+
+	userRepostory := repository.NewUserRepository(db, rdb)
+	userController := controllers.NewUserController(userRepostory)
+
+	_ = userRepostory
 
 	app := fiber.New()
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello World!")
 	})
+	api := app.Group("/api")
+
+	//user
+	api.Get("/user", userController.GetAllUsers)
 
 	log.Fatal(app.Listen(":4000"))
 }

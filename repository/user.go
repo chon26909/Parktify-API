@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"context"
 	"parktify/models"
 
 	"github.com/go-redis/redis/v8"
@@ -10,6 +9,8 @@ import (
 
 type UserRepository interface {
 	CreateUser(user *models.User) error
+	GetUserByEmail(email string) (*models.User, error)
+	GetUsers() (users []*models.User, err error)
 }
 
 type userRepository struct {
@@ -23,20 +24,20 @@ func NewUserRepository(db *gorm.DB, redis *redis.Client) UserRepository {
 
 func (r *userRepository) CreateUser(user *models.User) error {
 
-	r.db.Create(user)
-	return nil
+	return r.db.Create(user).Error
 }
 
-func (r *userRepository) GetAllUsers() (users []*models.User, err error) {
-
-	exist := r.redis.Get(context.TODO(), "A")
-
-	if exist == nil {
-		err := r.db.Table("users").Find(&users).Error
-		if err != nil {
-			return nil, err
-		}
-	}
+func (r *userRepository) GetUserByEmail(email string) (*models.User, error) {
 
 	return nil, nil
+}
+
+func (r *userRepository) GetUsers() (users []*models.User, err error) {
+
+	err = r.db.Find(&users).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return users, err
 }
