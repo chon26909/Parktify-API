@@ -16,7 +16,7 @@ type SqlLogger struct {
 }
 
 func NewMySqlConnection() *gorm.DB {
-	dsn := "parktify:1234@tcp(127.0.0.1:3306)/parktify?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "parktify:1234@tcp(192.168.1.152:3306)/parktify?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		Logger: &SqlLogger{},
 		DryRun: false,
@@ -25,7 +25,7 @@ func NewMySqlConnection() *gorm.DB {
 		panic(err)
 	}
 
-	db.AutoMigrate(&models.User{})
+	db.AutoMigrate(&models.User{}, &models.Location{})
 
 	return db
 }

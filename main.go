@@ -6,9 +6,6 @@ import (
 	"parktify/lib"
 	"parktify/repository"
 
-	// "parktify/lib"
-	// "parktify/repository"
-
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -22,18 +19,26 @@ func main() {
 	userRepostory := repository.NewUserRepository(db, rdb)
 	userController := controllers.NewUserController(userRepostory)
 
+	locationRepository := repository.NewLocationRepository(db, rdb)
+	locationController := controllers.NewLocationController(locationRepository)
+
 	app := fiber.New()
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello World!")
 	})
-	// api := app.Group("/api")
 
 	//user
-	app.Get("/user", userController.GetAllUsers)
-	app.Post("/user/create", userController.CreateUser)
-	app.Put("/user/:id", userController.UpdateUser)
-	app.Delete("/user/:id", userController.DeleteUser)
+	user := app.Group("/user")
+	user.Get("/", userController.GetAllUsers)
+	user.Post("/create", userController.CreateUser)
+	user.Put("/:id", userController.UpdateUser)
+	user.Delete("/:id", userController.DeleteUser)
+
+	//location
+	location := app.Group("/location")
+	location.Get("/", locationController.GetAllLocation)
+	location.Post("/create", locationController.CreateLocation)
 
 	log.Fatal(app.Listen(":4000"))
 }

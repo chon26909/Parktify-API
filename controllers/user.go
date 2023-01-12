@@ -30,7 +30,10 @@ func (r *userController) GetAllUsers(ctx *fiber.Ctx) error {
 
 	fmt.Println("get all users")
 
-	users, _ := r.userRepository.GetUsers()
+	users, err := r.userRepository.GetUsers()
+	if err != nil {
+		return err
+	}
 
 	responseUsers := []*dto.User{}
 	for _, user := range users {
@@ -43,8 +46,6 @@ func (r *userController) GetAllUsers(ctx *fiber.Ctx) error {
 			Email:        user.Email,
 		})
 	}
-
-	fmt.Println("users ", users)
 
 	return ctx.JSON(fiber.Map{"message": "ok", "data": responseUsers})
 }
@@ -92,8 +93,6 @@ func (r *userController) UpdateUser(ctx *fiber.Ctx) error {
 		FirstName: body.FirstName,
 		LastName:  body.LastName,
 	}
-
-	fmt.Println("user body", user)
 
 	r.userRepository.UpdateUser(user)
 

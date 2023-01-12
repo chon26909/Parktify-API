@@ -1,13 +1,17 @@
 package models
 
-import "github.com/google/uuid"
+import (
+	"time"
 
-type Coordinate struct {
-	Latitude  int64
-	Longitude int64
-}
+	"github.com/google/uuid"
+)
 
 type Location struct {
-	Id     uuid.UUID `gorm:"primarKey;column:id"`
-	Coords Coordinate
+	LocationID  uuid.UUID `gorm:"primarKey;column:id"`
+	Latitude    float64
+	Longitude   float64
+	Title       string
+	Description string
+	Created     time.Time
+	Updated     time.Time `gorm:"autoUpdateTime"`
 }

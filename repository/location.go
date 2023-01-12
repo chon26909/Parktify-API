@@ -1,13 +1,37 @@
 package repository
 
-type Location interface{}
+import (
+	"parktify/models"
 
-type location struct{}
+	"github.com/go-redis/redis/v8"
+	"gorm.io/gorm"
+)
 
-func NewLocationRepository() Location {
-	return &location{}
+type LocationRepository interface {
+	GetAllLocation() (locations []models.Location, err error)
+	CreateLocation(location models.Location) error
 }
 
-func (l *location) GetAllLocation() ([]Location, error) {
-	return nil, nil
+type locationRepository struct {
+	db    *gorm.DB
+	redis *redis.Client
+}
+
+func NewLocationRepository(db *gorm.DB, redis *redis.Client) LocationRepository {
+	return &locationRepository{db, redis}
+}
+
+func (r *locationRepository) GetAllLocation() (locations []models.Location, err error) {
+
+	err = r.db.Find(&locations).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return locations, err
+}
+
+func (r *locationRepository) CreateLocation(location models.Location) error {
+
+	return r.db.Create(location).Error
 }

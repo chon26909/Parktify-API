@@ -17,7 +17,7 @@ services:
     expose: 
       - 3306
     volumes: 
-      - db_data:/var/lib.mysql
+      - /Users/chon/Documents/Go/Parktify/data:/var/lib/mysql
 
   # Cache in memory
   redis:
@@ -31,12 +31,16 @@ services:
 
   # Application
   server: 
+    depends_on:
+      - mysql
+      - redis
     container_name: parktify-server
     build: .
     ports:
-      - 4001:4000
+      - 4000:4000
     expose:
-      - 4001
+      - 4000
+  
 
 volumes:
   db_data: 
