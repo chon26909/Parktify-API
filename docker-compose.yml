@@ -34,9 +34,9 @@ services:
     container_name: parktify-server
     build: .
     ports:
-      - 4000:4000
+      - 4001:4000
     expose:
-      - 4000
+      - 4001
 
 volumes:
   db_data: 
