@@ -1,6 +1,8 @@
 package models
 
 import (
+	"time"
+
 	"github.com/google/uuid"
 )
 
@@ -10,8 +12,8 @@ type User struct {
 	FirstName    string    `gorm:"column:firstname"`
 	LastName     string    `gorm:"column:lastname"`
 	MobileNumber string    `gorm:"column:mobile_number"`
-	Email        string    `gorm:"column:email"`
-	Password     string    `gorm:"column:password"`
-	Created      int64     `gorm:"autoCreateTime"`
-	Updated      int64     `gorm:"autoUpdateTime"`
+	Email        string
+	Password     string
+	Created      time.Time
+	Updated      time.Time `gorm:"autoUpdateTime"`
 }
