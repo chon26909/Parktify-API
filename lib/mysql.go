@@ -25,12 +25,12 @@ func NewMySqlConnection() *gorm.DB {
 		panic(err)
 	}
 
-	db.Migrator().CreateTable(models.User{})
+	db.AutoMigrate(&models.User{})
 
 	return db
 }
 
 func (l SqlLogger) Trace(ctx context.Context, begin time.Time, fc func() (sql string, rowsAffected int64), err error) {
 	stmt, _ := fc()
-	fmt.Printf("%v\n--------------------------------------------------------------------------------------------------------\n", stmt)
+	fmt.Printf("\nSQL => %v\n", stmt)
 }
