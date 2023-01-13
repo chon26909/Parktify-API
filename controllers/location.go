@@ -26,11 +26,23 @@ func NewLocationController(locationRepo repository.LocationRepository) LocationC
 func (r *locationController) GetAllLocation(ctx *fiber.Ctx) error {
 
 	locations, err := r.locationRepository.GetAllLocation()
+
+	locationResponse := []*dto.LocationResponse{}
+
+	for _, item := range locations {
+		locationResponse = append(locationResponse, &dto.LocationResponse{
+			Latitude:    item.Latitude,
+			Longitude:   item.Longitude,
+			Title:       item.Title,
+			Description: item.Description,
+		})
+	}
+
 	if err != nil {
 		return err
 	}
 
-	return ctx.JSON(fiber.Map{"message": "ok", "data": locations})
+	return ctx.JSON(fiber.Map{"message": "ok", "data": locationResponse})
 }
 
 func (r *locationController) CreateLocation(ctx *fiber.Ctx) error {

@@ -18,6 +18,7 @@ func main() {
 
 	userRepostory := repository.NewUserRepository(db, rdb)
 	userController := controllers.NewUserController(userRepostory)
+	authController := controllers.NewAuthController(userRepostory)
 
 	locationRepository := repository.NewLocationRepository(db, rdb)
 	locationController := controllers.NewLocationController(locationRepository)
@@ -27,6 +28,10 @@ func main() {
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello World!")
 	})
+
+	//auth
+	auth := app.Group("/auth")
+	auth.Post("/signin", authController.SignIn)
 
 	//user
 	user := app.Group("/user")

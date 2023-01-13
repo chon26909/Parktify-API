@@ -30,9 +30,10 @@ func (r *userRepository) CreateUser(user models.User) error {
 	return r.db.Create(user).Error
 }
 
-func (r *userRepository) GetUserByEmail(email string) (*models.User, error) {
+func (r *userRepository) GetUserByEmail(email string) (user *models.User, err error) {
 
-	return nil, nil
+	err = r.db.Where("email = ?", email).Find(&user).Error
+	return user, err
 }
 
 func (r *userRepository) GetUsers() (users []models.User, err error) {
