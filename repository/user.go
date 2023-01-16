@@ -32,7 +32,7 @@ func (r *userRepository) CreateUser(user models.User) error {
 
 func (r *userRepository) GetUserByEmail(email string) (user *models.User, err error) {
 
-	err = r.db.Where("email = ?", email).Find(&user).Error
+	err = r.db.Where("email = ?", email).First(&user).Error
 	return user, err
 }
 
