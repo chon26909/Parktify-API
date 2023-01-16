@@ -4,6 +4,7 @@ import (
 	"log"
 	"parktify/controllers"
 	"parktify/lib"
+	"parktify/middleware"
 	"parktify/repository"
 
 	"github.com/gofiber/fiber/v2"
@@ -32,9 +33,11 @@ func main() {
 	//auth
 	auth := app.Group("/auth")
 	auth.Post("/signin", authController.SignIn)
+	auth.Post("/signup", authController.SignUp)
 
 	//user
 	user := app.Group("/user")
+	user.Use(middleware.AuthorizationRequired())
 	user.Get("/", userController.GetAllUsers)
 	user.Post("/create", userController.CreateUser)
 	user.Put("/:id", userController.UpdateUser)
