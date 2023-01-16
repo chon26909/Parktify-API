@@ -12,6 +12,7 @@ type Location struct {
 	Longitude   float64
 	Title       string
 	Description string
+	CreateBy    uuid.UUID
 	Created     time.Time
 	Updated     time.Time `gorm:"autoUpdateTime"`
 }
