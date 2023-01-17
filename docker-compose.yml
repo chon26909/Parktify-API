@@ -2,6 +2,18 @@ version: '3.8'
 
 services:
 
+  # Application
+  server: 
+    depends_on:
+      - mysql
+      - redis
+    container_name: parktify-server
+    build: .
+    ports:
+      - 4000:4000
+    expose:
+      - 4000
+
   # Database
   mysql:
     image: mysql:latest
@@ -17,7 +29,7 @@ services:
     expose: 
       - 3306
     volumes: 
-      - /Users/chon/Documents/Go/Parktify/data:/var/lib/mysql
+      - ./data:/var/lib/mysql
 
   # Cache in memory
   redis:
@@ -28,19 +40,6 @@ services:
       - 1234:6379
     expose:
       - 1234
-
-  # Application
-  server: 
-    depends_on:
-      - mysql
-      - redis
-    container_name: parktify-server
-    build: .
-    ports:
-      - 4000:4000
-    expose:
-      - 4000
   
-
 volumes:
   db_data: 
