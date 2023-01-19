@@ -8,6 +8,7 @@ jobs:
   deploy:
     runs-on:
       - self-hosted
+      - Linux
       - chon
 
     steps:
