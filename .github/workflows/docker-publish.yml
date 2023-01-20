@@ -12,24 +12,27 @@ jobs:
       - test
 
     steps:
-      # - name: checkout
-      #   uses: actions/checkout@v2
+      - name: checkout
+        uses: actions/checkout@v3
 
-      - name: remote to VPS
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.PASSWORD }}
-          port: 22
-          script: |
-            cd /home/chon/actions-runner/_work/Parktify-API/Parktify-API
-            ls -la
-            run: docker-compose -f "docker-compose.yml" up -d --build
-            docker ps
+      - name: docker run
+        run: docker run --name MQTT -p 1883:1883 -e USERNAME=admin -e PASSWORD=1234 -d chon26909/mqtt
 
-      - name: Test
-        run: http://localhost:4000
+      # - name: remote to VPS
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ secrets.HOST }}
+      #     username: ${{ secrets.USERNAME }}
+      #     key: ${{ secrets.PASSWORD }}
+      #     port: 22
+      #     script: |
+      #       cd /home/chon/actions-runner/_work/Parktify-API/Parktify-API
+      #       ls -la
+      #       run: docker-compose -f "docker-compose.yml" up -d --build
+      #       docker ps
+
+      # - name: Test
+      #   run: http://localhost:4000
 
       # - name: docker compose
       #   uses: isbang/compose-action@v1.4.1
