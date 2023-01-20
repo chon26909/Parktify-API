@@ -18,9 +18,9 @@ jobs:
       - name: remote to VPS
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secerts.HOST }}
-          username: ${{ secerts.USERNAME }}
-          key: ${{ secerts.PASSWORD }}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.PASSWORD }}
           port: 22
           script: |
             cd /home/chon/actions-runner/_work/Parktify-API/Parktify-API
