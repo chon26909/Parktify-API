@@ -14,5 +14,8 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
 
-      - name: run docker compose
-        run: docker-compose -f "docker-compose.yml" up -d --build
+      # - name: run docker compose
+      #   run: docker-compose -f "docker-compose.yml" up -d --build
+
+      - name: run
+        run: go run main.go
