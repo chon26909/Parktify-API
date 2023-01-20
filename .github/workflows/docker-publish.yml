@@ -23,11 +23,11 @@ jobs:
       #   with:
       #     compose-file: "./docker-compose.yml"
 
-      # - name: docker build
-      #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      - name: docker build
+        run: docker build . --file Dockerfile --tag parktify-api:$(date +%s)
 
-      - name: run docker compose
-        run: docker-compose -f "docker-compose.yml" up -d --build
+      # - name: run docker compose
+      #   run: docker-compose -f "docker-compose.yml" up -d --build
 
       # - name: run
       #   run: go run main.go
