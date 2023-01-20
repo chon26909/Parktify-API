@@ -17,8 +17,11 @@ jobs:
       - name: docker version
         run: docker -v
 
-      - name: run docker compose
-        run: docker-compose -f "docker-compose.yml" up -d --build
+      - name: docker build
+        run: docker build .
+
+      # - name: run docker compose
+      #   run: docker-compose -f "docker-compose.yml" up -d --build
 
       # - name: run
       #   run: go run main.go
