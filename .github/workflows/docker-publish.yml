@@ -15,6 +15,11 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
 
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.19
+
       - name: docker version
         run: docker -v
 
@@ -25,7 +30,11 @@ jobs:
 
       - name: docker build
         run: |
-          docker build . --file Dockerfile --tag parktify-api:$(date +%s)
+          docker build . -t parktify-api:latest
+
+      # - name: docker build
+      #   run: |
+      #     docker build . --file Dockerfile --tag parktify-api:$(date +%s)
 
       # - name: run docker compose
       #   run: docker-compose -f "docker-compose.yml" up -d --build
