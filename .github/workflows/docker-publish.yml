@@ -15,8 +15,8 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
 
-      - name: docker run
-        run: docker run --name MQTT -p 1883:1883 -e USERNAME=admin -e PASSWORD=1234 -d chon26909/mqtt
+      # - name: docker run
+      #   run: docker run --name MQTT -p 1883:1883 -e USERNAME=admin -e PASSWORD=1234 -d chon26909/mqtt
 
       # - name: remote to VPS
       #   uses: appleboy/ssh-action@master
@@ -43,8 +43,8 @@ jobs:
       #   run: |
       #     docker build . --file Dockerfile --tag parktify-api:$(date +%s)
 
-      # - name: run docker compose
-      #   run: docker-compose -f "docker-compose.yml" up -d --build
+      - name: run docker compose
+        run: docker-compose -f "docker-compose.yml" up -d --build
 
       # - name: run
       #   run: go run main.go
