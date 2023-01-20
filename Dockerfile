@@ -4,9 +4,11 @@ WORKDIR /src
 
 COPY . .
 
-RUN go mod download 
+RUN ls -l
 
-RUN go build main.go
+RUN go clean --modcache
+
+RUN go build -o main .
 
 EXPOSE 4000
 
