@@ -29,12 +29,14 @@ func NewAuthController(userRepo repository.UserRepository) AuthController {
 func (r *authController) SignUp(ctx *fiber.Ctx) error {
 
 	var body *dto.SignUpRequest
-	err := ctx.BodyParser(&body)
+	var err error
+	err = ctx.BodyParser(&body)
 	if err != nil {
 		return err
 	}
 
 	_, err = r.userRepository.GetUserByEmail(body.Email)
+
 	if err == gorm.ErrRecordNotFound {
 
 		hashPassword, _ := utils.EncryptPassword(body.Password)
@@ -44,7 +46,7 @@ func (r *authController) SignUp(ctx *fiber.Ctx) error {
 			Username:     body.Username,
 			FirstName:    body.Firstname,
 			LastName:     body.Lastname,
-			MobileNumber: "",
+			MobileNumber: "0000000000",
 			Email:        body.Email,
 			Password:     hashPassword,
 			Created:      time.Now(),
@@ -69,7 +71,7 @@ func (r *authController) SignUp(ctx *fiber.Ctx) error {
 	}
 
 	return ctx.Status(400).JSON(fiber.Map{
-		"message": "Invalid username or password",
+		"message": "Server error",
 	})
 }
 
@@ -82,8 +84,10 @@ func (r *authController) SignIn(ctx *fiber.Ctx) error {
 	}
 
 	user, err := r.userRepository.GetUserByEmail(body.Email)
-	if err != nil {
-		return err
+	if err == gorm.ErrRecordNotFound {
+		return ctx.Status(400).JSON(fiber.Map{
+			"message": "Email not found",
+		})
 	}
 
 	token, err := utils.GenerateTokenAuth(user.UserID)
