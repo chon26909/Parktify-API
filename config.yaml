@@ -1,0 +1,10 @@
+app:
+  port: 4000
+
+db:
+  driver: "mysql"
+  host: "192.168.1.152"
+  port: 3306
+  username: "parktify"
+  password: "1234"
+  database: "parktify"
