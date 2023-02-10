@@ -8,3 +8,9 @@ db:
   username: "parktify"
   password: "1234"
   database: "parktify"
+
+cloudinary:
+  name: "dvzib8cte"
+  apiKey: 192494392215866
+  apiSecret: "5uGKxDU0UWmbCtKs7hAS_YzrByY"
+  folder: "Parktify"

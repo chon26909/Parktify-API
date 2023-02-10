@@ -1,9 +1,11 @@
 package controllers
 
 import (
+	"fmt"
 	"parktify/dto"
 	"parktify/models"
 	"parktify/repository"
+	"parktify/utils"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -52,6 +54,11 @@ func (r *locationController) CreateLocation(ctx *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
+
+	res, _ := utils.UploadImage(body.Image)
+
+	fmt.Print("response ", res)
+	return nil
 
 	newLocation := models.Location{
 		LocationID:  uuid.New(),

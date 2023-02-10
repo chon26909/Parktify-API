@@ -12,4 +12,5 @@ type CreateLocationRequest struct {
 	Longitude   float64 `json:"longitude,omitempty"`
 	Title       string  `json:"title,omitempty"`
 	Description string  `json:"description,omitempty"`
+	Image       string  `json:"image,omitempty"`
 }
