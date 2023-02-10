@@ -5,7 +5,6 @@ import (
 	"log"
 	"parktify/controllers"
 	"parktify/lib"
-	"parktify/logs"
 	"parktify/middleware"
 	"parktify/repository"
 	"strings"
@@ -53,8 +52,6 @@ func main() {
 	location := app.Group("/location")
 	location.Get("/", locationController.GetAllLocation)
 	location.Post("/create", locationController.CreateLocation)
-
-	logs.Info("test")
 
 	log.Fatal(app.Listen(fmt.Sprintf(":%v", viper.GetInt("app.port"))))
 
