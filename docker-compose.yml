@@ -17,7 +17,7 @@ services:
     expose: 
       - 3306
     volumes: 
-      - /Users/chon/Documents/Go/Parktify/data:/var/lib/mysql
+      - ./data:/var/lib/mysql
 
   # Cache in memory
   redis:
