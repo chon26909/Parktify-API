@@ -1,16 +1,22 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"parktify/controllers"
 	"parktify/lib"
+	"parktify/logs"
 	"parktify/middleware"
 	"parktify/repository"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/spf13/viper"
 )
 
 func main() {
+
+	initConfig()
 
 	// database
 	db := lib.NewMySqlConnection()
@@ -48,5 +54,22 @@ func main() {
 	location.Get("/", locationController.GetAllLocation)
 	location.Post("/create", locationController.CreateLocation)
 
-	log.Fatal(app.Listen(":4000"))
+	logs.Info("test")
+
+	log.Fatal(app.Listen(fmt.Sprintf(":%v", viper.GetInt("app.port"))))
+
+}
+
+func initConfig() {
+	viper.SetConfigName("config")
+	viper.SetConfigType("yaml")
+	viper.AddConfigPath(".")
+	viper.AutomaticEnv() // อ่าน value จาก ENV variable
+	// แปลง _ underscore ใน env เป็น . dot notation ใน viper
+	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
+	// อ่าน config
+	err := viper.ReadInConfig()
+	if err != nil {
+		panic(fmt.Errorf("fatal error config file: %s", err))
+	}
 }
