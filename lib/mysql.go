@@ -6,6 +6,7 @@ import (
 	"parktify/models"
 	"time"
 
+	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -16,7 +17,17 @@ type SqlLogger struct {
 }
 
 func NewMySqlConnection() *gorm.DB {
-	dsn := "parktify:1234@tcp(192.168.1.152:3306)/parktify?charset=utf8mb4&parseTime=True&loc=Local"
+
+	fmt.Println(viper.GetString("db.username"))
+
+	dsn := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?charset=utf8mb4&parseTime=True&loc=Local",
+		viper.GetString("db.username"),
+		viper.GetString("db.password"),
+		viper.GetString("db.host"),
+		viper.GetString("db.port"),
+		viper.GetString("db.database"),
+	)
+
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		Logger: &SqlLogger{},
 		DryRun: false,
